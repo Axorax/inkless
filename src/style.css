@@ -1,0 +1,139 @@
+@font-face {
+  font-family: 'default';
+  src: url('./inter.woff2');
+}
+
+@font-face {
+  font-family: 'mono';
+  src: url('./mono.woff2');
+}
+
+:root {
+  --text: #000;
+  --placeholder: #0000004e;
+  --background: #fff;
+  --footer-color: #00000085;
+  --footer-border: #d5d5d5;
+  --padding: 1rem;
+  --height: calc(100dvh - 30px - 2 * var(--padding));
+  --font-size: 16px;
+  --font: 'default', sans-serif;
+
+  &:not(.mono) {
+    div[contenteditable] {
+      div,
+      span {
+        color: var(--text);
+        text-decoration: none;
+      }
+    }
+  }
+
+  &.glow {
+    div[contenteditable] {
+      div,
+      span {
+        --glow: #fff;
+        text-shadow: 1px 1px 10px var(--glow);
+      }
+    }
+  }
+
+  &.mono {
+    --font: 'mono', 'Courier New', Courier, monospace;
+  }
+
+  &.dark {
+    --text: #fff;
+    --placeholder: #ffffff4e;
+    --background: #121212;
+    --footer-color: #ffffff78;
+    --footer-border: #3d3d3d;
+  }
+
+  &.mica {
+    --text: #fff;
+    --placeholder: #ffffff4e;
+    --background: transparent;
+    --footer-color: #ffffff78;
+    --footer-border: #3d3d3d;
+  }
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
+}
+
+/* Main editor */
+
+div[contenteditable] {
+  height: var(--height);
+  max-height: var(--height);
+  overflow-y: auto;
+  outline: none;
+  padding: var(--padding);
+  padding-top: 0;
+  margin-top: var(--padding);
+  color: var(--text);
+  font-size: var(--font-size);
+
+  &:before {
+    content: attr(placeholder);
+    z-index: 9;
+    line-height: 1.7;
+    color: var(--placeholder);
+    word-break: break-all;
+    user-select: none;
+  }
+
+  &:focus::before {
+    content: '';
+  }
+}
+
+/* Footer */
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100dvw;
+  border-top: 1.5px solid var(--footer-border);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  z-index: 9;
+  color: var(--footer-color);
+  background: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+
+  div {
+    overflow-x: auto;
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  div,
+  span {
+    font-weight: 500;
+    font-family: 'default', sans-serif !important;
+  }
+}
