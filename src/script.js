@@ -246,7 +246,8 @@ function updateLineNumbers() {
   const editor = document.querySelector('div[contenteditable]');
   const lineNumbers = document.querySelector('.line-numbers');
   lineNumbers.style.lineHeight = getComputedStyle(editor).lineHeight;
-  // Remove any trailing newlines before splitting
+  // Slight upward shift to align better
+  lineNumbers.style.marginTop = '-6px';
   const text = editor.innerText.replace(/\n+$/, '');
   const lines = text.split('\n');
   lineNumbers.innerHTML = lines
