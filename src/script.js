@@ -469,10 +469,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const lineNumbers = document.querySelector('.line-numbers');
 
   const updateLineNumbers = () => {
-    const lines = editor.innerText.split('\n').length;
-    lineNumbers.innerHTML = Array.from({ length: lines }, (_, i) => `<div>${i + 1}</div>`).join('');
+    const lineCount = editor.getElementsByTagName('div').length || 1;
+    lineNumbers.innerHTML = Array.from(
+      { length: lineCount },
+      (_, i) => `<div>${i + 1}</div>`
+    ).join('');
   };
 
   editor.addEventListener('input', updateLineNumbers);
+  editor.addEventListener('keyup', updateLineNumbers);
   updateLineNumbers();
 });
