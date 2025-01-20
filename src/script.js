@@ -217,7 +217,7 @@ function updateEditor() {
       try {
         delete d.dataset.highlighted;
         d.className = '';
-      } catch (_) {}
+      } catch (_) { }
       hljs.highlightElement(d);
     });
 
@@ -242,6 +242,18 @@ function updateEditor() {
   }
 }
 
+function updateLineNumbers() {
+  const editor = document.querySelector('div[contenteditable]');
+  const lineNumbers = document.querySelector('.line-numbers');
+  lineNumbers.style.lineHeight = getComputedStyle(editor).lineHeight;
+  // Remove any trailing newlines before splitting
+  const text = editor.innerText.replace(/\n+$/, '');
+  const lines = text.split('\n');
+  lineNumbers.innerHTML = lines
+    .map((_, index) => `<div>${index + 1}</div>`)
+    .join('');
+}
+
 editor.addEventListener('input', () => {
   saved = false;
   setTitle();
@@ -252,6 +264,7 @@ editor.addEventListener('input', () => {
   timer2 = setTimeout(() => {
     updateEditor();
   }, 2000);
+  updateLineNumbers();
 });
 
 // Handle theme
@@ -446,4 +459,19 @@ footer.addEventListener('wheel', (e) => {
     footer.scrollLeft += e.deltaY;
     e.preventDefault();
   }
+});
+
+updateLineNumbers();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const editor = document.querySelector('div[contenteditable]');
+  const lineNumbers = document.querySelector('.line-numbers');
+
+  const updateLineNumbers = () => {
+    const lines = editor.innerText.split('\n').length;
+    lineNumbers.innerHTML = Array.from({ length: lines }, (_, i) => `<div>${i + 1}</div>`).join('');
+  };
+
+  editor.addEventListener('input', updateLineNumbers);
+  updateLineNumbers();
 });

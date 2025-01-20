@@ -21,6 +21,7 @@
 
   &:not(.mono) {
     div[contenteditable] {
+
       div,
       span {
         color: var(--text);
@@ -31,6 +32,7 @@
 
   &.glow {
     div[contenteditable] {
+
       div,
       span {
         --glow: #fff;
@@ -82,6 +84,23 @@ html {
 
 /* Main editor */
 
+.editor-container {
+  position: relative;
+  height: 100%;
+}
+
+.line-numbers {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.5em 0.5em;
+  line-height: 1.7;
+  text-align: right;
+  color: #666;
+  user-select: none;
+  font-family: inherit;
+}
+
 div[contenteditable] {
   height: var(--height);
   max-height: var(--height);
@@ -92,6 +111,7 @@ div[contenteditable] {
   margin-top: var(--padding);
   color: var(--text);
   font-size: var(--font-size);
+  padding-left: 3em;
 
   &:before {
     content: attr(placeholder);
