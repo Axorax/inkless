@@ -58,6 +58,14 @@
     --footer-color: #ffffff78;
     --footer-border: #3d3d3d;
   }
+
+  &.rainbow {
+    & * {
+      color: #7373fe !important;
+    }
+    filter: hue-rotate(0deg);
+    animation: hueRotate 3s infinite linear;
+  }
 }
 
 *,
@@ -150,5 +158,14 @@ footer {
   span {
     font-weight: 500;
     font-family: 'default', sans-serif !important;
+  }
+}
+
+@keyframes hueRotate {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
   }
 }

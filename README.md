@@ -73,6 +73,7 @@ For macOS, use the meta key instead of `CTRL`.
 | CTRL + R         | Reload app                                                        |
 | CTRL + N         | Toggle glow                                                       |
 | CTRL + SHIFT + N | Toggle dynamic glow (Takes more processing power, code mode only) |
+| CTRL + SHIFT + R | Rainbow mode (fun)                                                |
 | CTRL + Scroll    | Increase or decrease font size                                    |
 | CTRL + SHIFT + C | Toggle code mode                                                  |
 

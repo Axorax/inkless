@@ -6,6 +6,7 @@ const footer = document.querySelector('footer > div');
 const editor = document.querySelector('div[contenteditable]');
 const placeholder = editor.getAttribute('placeholder');
 let codeMode = false;
+let rainbow = false;
 let dynamicGlow = false;
 let saved = true;
 let activeFilePath = null;
@@ -384,7 +385,7 @@ function getOSTheme() {
     dynamicGlow = true;
   }
 
-  if (data.code_mode && data.code_mode == "true") {
+  if (data.code_mode && data.code_mode == 'true') {
     codeMode = true;
     setTitle();
     document.documentElement.classList.add('mono');
@@ -392,7 +393,7 @@ function getOSTheme() {
   }
 
   if (data.ext) {
-    Object.keys(data.ext).forEach(key => {
+    Object.keys(data.ext).forEach((key) => {
       eval(data.ext[key]);
     });
   }
@@ -444,7 +445,7 @@ function updateEditor() {
       clonedRange.selectNodeContents(e);
       clonedRange.setEnd(range.endContainer, range.endOffset);
       const cursorPosition = clonedRange.toString().length;
-  
+
       const createRange = (node, targetPosition) => {
         let range = document.createRange();
         range.selectNode(node);
@@ -469,14 +470,14 @@ function updateEditor() {
         range.setEnd(node, node.childNodes.length);
         return range;
       };
-  
+
       const setPosition = (targetPosition) => {
         const range = createRange(e, targetPosition);
         const selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
       };
-  
+
       e.querySelectorAll('div').forEach((d) => {
         if (d.textContent.replaceAll(' ', '') == '') {
           return;
@@ -487,17 +488,17 @@ function updateEditor() {
         } catch (_) {}
         hljs.highlightElement(d);
       });
-  
+
       if (dynamicGlow) {
         e.querySelectorAll('& span').forEach((d) => {
           d.style.setProperty('--glow', window.getComputedStyle(d).color);
         });
       }
-  
+
       setPosition(cursorPosition);
-  
+
       console.clear();
-  
+
       const selection2 = window.getSelection();
       const range2 = selection.getRangeAt(0);
       const cursorPositionElement = range2.endContainer;
