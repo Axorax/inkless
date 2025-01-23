@@ -424,6 +424,7 @@ const updateInfo = () => {
   updateDisplay('#words', words, 'word');
   updateDisplay('#chars', chars, 'character');
   updateDisplay('#lines', lines, 'line');
+  document.querySelector('#read').textContent = ((t => { let h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60; return (h ? `${h}h ` : '') + (m ? `${m}m` : '') + (s ? ` ${s}s` : ''); })(Math.ceil(chars / 17)));
 };
 
 const updateDisplay = (selector, count, label) => {
