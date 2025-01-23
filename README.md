@@ -12,7 +12,7 @@
 
 ## ❓ About
 
-Inkless is a minimal, lightweight (less than 4 MB), shortcut-based text editor. You can use it for writing notes or coding (CTRL + SHIFT + C). Anything you paste is automatically converted to plain text.
+Inkless is a minimal, lightweight (less than 4 MB), shortcut-based text editor. You can use it for writing notes or coding (`CTRL + SHIFT + C`). Anything you paste is automatically converted to plain text.
 
 If you write and close the app without saving, it won't nag you to save before closing. This is intentionally done to make it easier to create session notes. There will be a `*` symbol beside the filename in the titlebar if you have unsaved changes. And, if code mode or dynamic glow is enabled, it will mention that in the titlebar.
 
@@ -61,21 +61,21 @@ For macOS, use the meta key instead of `CTRL`.
 
 | Shortcut         | Description                                                       |
 | ---------------- | ----------------------------------------------------------------- |
-| CTRL + O         | Open document                                                     |
-| CTRL + S         | Save document                                                     |
-| CTRL + M         | Toggle Mica effect (Windows only)                                 |
-| CTRL + T         | Switch between themes                                             |
-| CTRL + W         | Toggle status bar visibility                                      |
-| CTRL + F         | Find and search tool                                              |
-| CTRL + G         | Toggle grid                                                       |
-| CTRL + E         | Toggle spellchecker                                               |
-| CTRL + P         | Open print menu                                                   |
-| CTRL + R         | Reload app                                                        |
-| CTRL + N         | Toggle glow                                                       |
-| CTRL + SHIFT + N | Toggle dynamic glow (Takes more processing power, code mode only) |
-| CTRL + SHIFT + R | Rainbow mode (fun)                                                |
-| CTRL + Scroll    | Increase or decrease font size                                    |
-| CTRL + SHIFT + C | Toggle code mode                                                  |
+| `CTRL + O`         | Open document                                                     |
+| `CTRL + S`         | Save document                                                     |
+| `CTRL + M`         | Toggle Mica effect (Windows only)                                 |
+| `CTRL + T`         | Switch between themes                                             |
+| `CTRL + W`         | Toggle status bar visibility                                      |
+| `CTRL + F`         | Find and search tool                                              |
+| `CTRL + G`         | Toggle grid                                                       |
+| `CTRL + E`         | Toggle spellchecker                                               |
+| `CTRL + P`         | Open print menu                                                   |
+| `CTRL + R`         | Reload app                                                        |
+| `CTRL + N`         | Toggle glow                                                       |
+| `CTRL + SHIFT + N` | Toggle dynamic glow (Takes more processing power, code mode only) |
+| `CTRL + SHIFT + R` | Rainbow mode (fun)                                                |
+| `CTRL + Scroll`    | Increase or decrease font size                                    |
+| `CTRL + SHIFT + C` | Toggle code mode                                                  |
 
 ## ⌨️ Editor shortcuts
 
@@ -83,16 +83,16 @@ You can use these shortcuts while writing in the input field. For macOS, use the
 
 | Shortcut         | Description                                           |
 | ---------------- | ----------------------------------------------------- |
-| ", ', (, {, [, < | Automatically closes it and puts cursor in the middle |
-| Tab              | Indent with four spaces                               |
-| CTRL + X         | Copy and delete line                                  |
-| Home             | Go to start of line                                   |
-| End              | Go to end of line                                     |
-| Delete           | Remove character infront of cursor                    |
-| CTRL + B         | Bold text                                             |
-| CTRL + I         | Italic text                                           |
-| CTRL + U         | Underline text                                        |
-| CTRL + K         | Strikethrough text                                    |
+| `"`, `'`, `(`, `{`, `[`, `<` | Automatically closes it and puts cursor in the middle |
+| `Tab`              | Indent with four spaces                               |
+| `CTRL + X `        | Copy and delete line                                  |
+| `Home`             | Go to start of line                                   |
+| `End`              | Go to end of line                                     |
+| `Delete`           | Remove character infront of cursor                    |
+| `CTRL + B`         | Bold text                                             |
+| `CTRL + I`         | Italic text                                           |
+| `CTRL + U`         | Underline text                                        |
+| `CTRL + K`         | Strikethrough text                                    |
 
 ## 💻 Supported programming languages
 

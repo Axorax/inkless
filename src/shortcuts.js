@@ -99,16 +99,16 @@ const shortcuts = {
 
   'ctrl+shift+R': () => {
     rainbow = !rainbow;
-    document.documentElement.classList.toggle('rainbow', rainbow);
+    document.documentElement.classList.toggle('rainbow');
   },
 
   'ctrl+shift+N': () => {
     dynamicGlow = !dynamicGlow;
-    document.documentElement.classList.toggle('glow', dynamicGlow);
+    document.documentElement.classList.toggle('glow');
     setTitle();
     updateEditor();
     saveData('dynamic_glow', dynamicGlow.toString());
-  },
+  }
 };
 
 document.addEventListener('keydown', (event) => {
