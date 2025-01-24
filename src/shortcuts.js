@@ -20,6 +20,21 @@ const shortcuts = {
     }
   },
 
+  'ctrl+shift+S': () => {
+    const synth = window.speechSynthesis;
+    if (synth.speaking) {
+      synth.cancel();
+      return;
+    }
+    const selectedText = window.getSelection().toString().trim();
+    const contentEditableText = editor?.innerText.trim();
+    const text = selectedText || contentEditableText;
+    if (text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      synth.speak(utterance);
+    }
+  },
+
   'ctrl+M': async () => {
     const htmlClass = document.documentElement.classList;
     const newTheme = htmlClass.contains('dark') ? 'mica' : htmlClass.contains('mica') ? 'dark' : 'mica';
@@ -108,7 +123,7 @@ const shortcuts = {
     setTitle();
     updateEditor();
     saveData('dynamic_glow', dynamicGlow.toString());
-  }
+  },
 };
 
 document.addEventListener('keydown', (event) => {

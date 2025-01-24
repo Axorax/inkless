@@ -59,40 +59,41 @@ Donations are really appreciated and would help in the improvement of the projec
 
 For macOS, use the meta key instead of `CTRL`.
 
-| Shortcut         | Description                                                       |
-| ---------------- | ----------------------------------------------------------------- |
-| `CTRL + O`         | Open document                                                     |
-| `CTRL + S`         | Save document                                                     |
-| `CTRL + M`         | Toggle Mica effect (Windows only)                                 |
-| `CTRL + T`         | Switch between themes                                             |
-| `CTRL + W`         | Toggle status bar visibility                                      |
-| `CTRL + F`         | Find and search tool                                              |
-| `CTRL + G`         | Toggle grid                                                       |
-| `CTRL + E`         | Toggle spellchecker                                               |
-| `CTRL + P`         | Open print menu                                                   |
-| `CTRL + R`         | Reload app                                                        |
-| `CTRL + N`         | Toggle glow                                                       |
-| `CTRL + SHIFT + N` | Toggle dynamic glow (Takes more processing power, code mode only) |
-| `CTRL + SHIFT + R` | Rainbow mode (fun)                                                |
-| `CTRL + Scroll`    | Increase or decrease font size                                    |
-| `CTRL + SHIFT + C` | Toggle code mode                                                  |
+| Shortcut           | Description                                                         |
+| ------------------ | ------------------------------------------------------------------- |
+| `CTRL + O`         | Open document                                                       |
+| `CTRL + S`         | Save document                                                       |
+| `CTRL + M`         | Toggle Mica effect (Windows only)                                   |
+| `CTRL + T`         | Switch between themes                                               |
+| `CTRL + W`         | Toggle status bar visibility                                        |
+| `CTRL + F`         | Find and search tool                                                |
+| `CTRL + G`         | Toggle grid                                                         |
+| `CTRL + E`         | Toggle spellchecker                                                 |
+| `CTRL + P`         | Open print menu                                                     |
+| `CTRL + R`         | Reload app                                                          |
+| `CTRL + N`         | Toggle glow                                                         |
+| `CTRL + SHIFT + N` | Toggle dynamic glow (Takes more processing power, code mode only)   |
+| `CTRL + SHIFT + R` | Rainbow mode (fun)                                                  |
+| `CTRL + SHIFT + S` | Text to speech. Will speak selected text otherwise entire document. |
+| `CTRL + Scroll`    | Increase or decrease font size                                      |
+| `CTRL + SHIFT + C` | Toggle code mode                                                    |
 
 ## ⌨️ Editor shortcuts
 
 You can use these shortcuts while writing in the input field. For macOS, use the meta key instead of `CTRL`. Effects like bold, italic and so on don't get saved. So, if you reload or load the file after saving, they won't appear.
 
-| Shortcut         | Description                                           |
-| ---------------- | ----------------------------------------------------- |
+| Shortcut                     | Description                                           |
+| ---------------------------- | ----------------------------------------------------- |
 | `"`, `'`, `(`, `{`, `[`, `<` | Automatically closes it and puts cursor in the middle |
-| `Tab`              | Indent with four spaces                               |
-| `CTRL + X `        | Copy and delete line                                  |
-| `Home`             | Go to start of line                                   |
-| `End`              | Go to end of line                                     |
-| `Delete`           | Remove character infront of cursor                    |
-| `CTRL + B`         | Bold text                                             |
-| `CTRL + I`         | Italic text                                           |
-| `CTRL + U`         | Underline text                                        |
-| `CTRL + K`         | Strikethrough text                                    |
+| `Tab`                        | Indent with four spaces                               |
+| `CTRL + X `                  | Copy and delete line                                  |
+| `Home`                       | Go to start of line                                   |
+| `End`                        | Go to end of line                                     |
+| `Delete`                     | Remove character infront of cursor                    |
+| `CTRL + B`                   | Bold text                                             |
+| `CTRL + I`                   | Italic text                                           |
+| `CTRL + U`                   | Underline text                                        |
+| `CTRL + K`                   | Strikethrough text                                    |
 
 ## 💻 Supported programming languages
 
