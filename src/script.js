@@ -354,6 +354,20 @@ function setTitle() {
 setTitle();
 makeEditor(document.querySelector('div[contenteditable]'));
 
+getCurrentWindow().listen('tauri://close-requested', async (event) => {
+  if (!saved) {
+    const shouldExit = await dialog.ask(
+      'You have unsaved changes. Do you really want to exit?',
+      { title: 'Unsaved Changes' }
+    );
+    if (shouldExit) {
+      getCurrentWindow().destroy();
+    }
+  } else {
+    getCurrentWindow().destroy();
+  }
+});
+
 // Handle settings and extensions
 
 function getOSTheme() {
