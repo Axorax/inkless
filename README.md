@@ -90,10 +90,6 @@ You can use these shortcuts while writing in the input field. For macOS, use the
 | `Home`                       | Go to start of line                                   |
 | `End`                        | Go to end of line                                     |
 | `Delete`                     | Remove character infront of cursor                    |
-| `CTRL + B`                   | Bold text                                             |
-| `CTRL + I`                   | Italic text                                           |
-| `CTRL + U`                   | Underline text                                        |
-| `CTRL + K`                   | Strikethrough text                                    |
 
 ## 💻 Supported programming languages
 
