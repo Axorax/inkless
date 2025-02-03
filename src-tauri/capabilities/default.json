@@ -1,0 +1,26 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "opener:default",
+    "dialog:default",
+    "fs:default",
+    "fs:write-all",
+    "fs:write-files",
+    "fs:read-all",
+    "core:window:allow-set-title",
+    "core:window:allow-close",
+    "core:window:allow-destroy",
+    {
+      "identifier": "fs:write-all",
+      "allow": [{ "path": "**" }, { "path": "**/*" }]
+    },
+    {
+      "identifier": "fs:read-all",
+      "allow": [{ "path": "**" }, { "path": "**/*" }]
+    }
+  ]
+}
