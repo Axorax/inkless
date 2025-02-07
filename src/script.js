@@ -235,91 +235,86 @@ async function getAll() {
   }
 }
 
-// Utility
+// Keyboard handler
 
-function makeEditor(div) {
-  div.addEventListener('keydown', function (e) {
-    if ((e.key === 'Tab' && e.shiftKey) || e.key === 'Tab') {
-      e.preventDefault();
-      if (e.shiftKey) {
-        const selection = window.getSelection();
-        if (!selection.rangeCount) return;
-        const range = selection.getRangeAt(0);
-        const node = range.startContainer;
-        const offset = range.startOffset;
-        if (node.nodeType === Node.TEXT_NODE && offset >= 4 && node.textContent.slice(offset - 4, offset) === '    ') {
-          range.setStart(node, offset - 4);
-          range.setEnd(node, offset);
-          range.deleteContents();
-        }
-      } else {
-        document.execCommand('insertText', false, '    ');
-      }
-    } else if (['"', "'", '(', '{', '[', '<'].includes(e.key)) {
-      e.preventDefault();
-      const pairMap = {
-        '"': '"',
-        "'": "'",
-        '(': ')',
-        '{': '}',
-        '[': ']',
-        '<': '>',
-      };
-      const pair = pairMap[e.key];
-      const selection = window.getSelection();
-      const range = selection.getRangeAt(0);
-      range.deleteContents();
-      const startNode = document.createTextNode(e.key);
-      const endNode = document.createTextNode(pair);
-      range.insertNode(endNode);
-      range.insertNode(startNode);
-      range.setStart(startNode, 1);
-      range.setEnd(startNode, 1);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    } else if (e.key === 'x' && (e.ctrlKey || e.metaKey)) {
-      e.preventDefault();
-      const selection = window.getSelection();
-      if (!selection.rangeCount) return;
-      const range = selection.getRangeAt(0);
-      let start = range.startContainer;
-      while (start && start.nodeType !== Node.ELEMENT_NODE) {
-        start = start.parentNode;
-      }
-      let end = range.endContainer;
-      while (end && end.nodeType !== Node.ELEMENT_NODE) {
-        end = end.parentNode;
-      }
-      if (start && end && start === end && start.nodeType === Node.ELEMENT_NODE) {
-        const lineText = start.textContent;
-        navigator.clipboard.writeText(lineText).then(() => {
-          start.textContent = '';
-        });
-      }
-    } else if (e.key === 'Home') {
-      e.preventDefault();
+const keydownHandler = function (e) {
+  if ((e.key === 'Tab' && e.shiftKey) || e.key === 'Tab') {
+    e.preventDefault();
+    if (e.shiftKey) {
       const selection = window.getSelection();
       if (!selection.rangeCount) return;
       const range = selection.getRangeAt(0);
       const node = range.startContainer;
       const offset = range.startOffset;
-      const lineText = node.textContent;
-      let newOffset = 0;
-      for (let i = 0; i < lineText.length; i++) {
-        if (lineText[i] !== ' ' && lineText[i] !== '\t') {
-          newOffset = i;
-          break;
-        }
+      if (node.nodeType === Node.TEXT_NODE && offset >= 4 && node.textContent.slice(offset - 4, offset) === '    ') {
+        range.setStart(node, offset - 4);
+        range.setEnd(node, offset);
+        range.deleteContents();
       }
-      if (offset === newOffset || offset === 0) {
-        newOffset = 0;
-      }
-      range.setStart(node, newOffset);
-      range.setEnd(node, newOffset);
-      selection.removeAllRanges();
-      selection.addRange(range);
+    } else {
+      document.execCommand('insertText', false, '    ');
     }
-  });
+  } else if (['"', "'", '(', '{', '[', '<'].includes(e.key)) {
+    e.preventDefault();
+    const pairMap = { '"': '"', "'": "'", '(': ')', '{': '}', '[': ']', '<': '>' };
+    const pair = pairMap[e.key];
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    const startNode = document.createTextNode(e.key);
+    const endNode = document.createTextNode(pair);
+    range.insertNode(endNode);
+    range.insertNode(startNode);
+    range.setStart(startNode, 1);
+    range.setEnd(startNode, 1);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  } else if (e.key === 'x' && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault();
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return;
+    const range = selection.getRangeAt(0);
+    let start = range.startContainer;
+    while (start && start.nodeType !== Node.ELEMENT_NODE) start = start.parentNode;
+    let end = range.endContainer;
+    while (end && end.nodeType !== Node.ELEMENT_NODE) end = end.parentNode;
+    if (start && end && start === end && start.nodeType === Node.ELEMENT_NODE) {
+      const lineText = start.textContent;
+      navigator.clipboard.writeText(lineText).then(() => { start.textContent = ''; });
+    }
+  } else if (e.key === 'Home') {
+    e.preventDefault();
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return;
+    const range = selection.getRangeAt(0);
+    const node = range.startContainer;
+    const offset = range.startOffset;
+    const lineText = node.textContent;
+    let newOffset = 0;
+    for (let i = 0; i < lineText.length; i++) {
+      if (lineText[i] !== ' ' && lineText[i] !== '\t') {
+        newOffset = i;
+        break;
+      }
+    }
+    if (offset === newOffset || offset === 0) newOffset = 0;
+    range.setStart(node, newOffset);
+    range.setEnd(node, newOffset);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+};
+
+// Utility
+
+function toggleCodeMode(div = editor) {
+  if (codeMode) {
+    div.removeEventListener('keydown', keydownHandler);
+    codeMode = false;
+  } else {
+    div.addEventListener('keydown', keydownHandler);
+    codeMode = true;
+  }
 }
 
 function setTitle() {
@@ -329,7 +324,6 @@ function setTitle() {
 // Run at start
 
 setTitle();
-makeEditor(document.querySelector('div[contenteditable]'));
 
 getCurrentWindow().listen('tauri://close-requested', async (event) => {
   if (!saved) {
@@ -374,7 +368,7 @@ function getOSTheme() {
   }
 
   if (data.code_mode && data.code_mode == 'true') {
-    codeMode = true;
+    toggleCodeMode();
     setTitle();
     document.documentElement.classList.add('mono');
     updateEditor();
@@ -432,7 +426,7 @@ updateInfo();
 function updateEditor() {
   try {
     if (codeMode) {
-      const e = document.querySelector('div[contenteditable]');
+      const e = editor;
       if (e.textContent.replaceAll(' ', '') == '') {
         return;
       }

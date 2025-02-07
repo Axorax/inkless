@@ -102,7 +102,7 @@ const shortcuts = {
   },
 
   'ctrl+shift+C': () => {
-    codeMode = !codeMode;
+    toggleCodeMode();
     document.documentElement.classList.toggle('mono', codeMode);
     setTitle();
     updateEditor();
