@@ -305,6 +305,34 @@ const keydownHandler = function (e) {
   }
 };
 
+// Search
+
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.querySelector(".command-palette input");
+  const resultsContainer = document.querySelector(".command-palette .results");
+  const items = Array.from(document.querySelectorAll(".command-palette .item"));
+  const noResultsItem = document.createElement("div");
+  
+  noResultsItem.className = "item no-results";
+  noResultsItem.innerHTML = "<span class='description'>No results found</span>";
+  noResultsItem.style.display = "none";
+  resultsContainer.appendChild(noResultsItem);
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase();
+    let matches = 0;
+
+    items.forEach(item => {
+      const text = item.innerText.toLowerCase();
+      const isMatch = text.includes(query);
+      item.style.display = isMatch ? "flex" : "none";
+      if (isMatch) matches++;
+    });
+
+    noResultsItem.style.display = matches === 0 ? "flex" : "none";
+  });
+});
+
 // Utility
 
 function toggleCodeMode(div = editor) {

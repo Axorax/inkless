@@ -65,6 +65,11 @@ const shortcuts = {
     }
   },
 
+  'ctrl+P': () => {
+    const e = document.querySelector('.command-palette');
+      e.style.display = e.style.display === 'none' ? 'block' : 'none';
+  },
+
   'ctrl+G': () => {
     const existingGrid = document.querySelector('.grid-overlay');
     if (existingGrid) {
@@ -97,7 +102,7 @@ const shortcuts = {
     editor.setAttribute('spellcheck', !spellcheck);
   },
 
-  'ctrl+P': () => {
+  'ctrl+shift+P': () => {
     window.print();
   },
 

@@ -162,6 +162,76 @@ footer {
   }
 }
 
+/* Command palette */
+
+.command-palette {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  background: #0000004e;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2px);
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+
+    input {
+      width: 25rem;
+      max-width: calc(100% - 2rem);
+      outline: none;
+      border: none;
+      background: #1d1d1dc7;
+      border-radius: 1rem 1rem 0 0;
+      padding: 1rem;
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    .results {
+      width: 25rem;
+      max-width: calc(100% - 2rem);
+      overflow-y: scroll;
+      max-height: 70%;
+      border-radius: 0 0 1rem 1rem;
+
+      .item {
+        background: #1d1d1d;
+        padding: 1rem;
+        white-space: nowrap;
+        overflow-y: hidden;
+        cursor: pointer;
+        user-select: none;
+
+        .shortcut {
+          background: #344CB7;
+          font-family: 'mono', monospace;
+          border-radius: 1rem;
+          font-size: 13px;
+          padding: 0.3rem 0.6rem;
+          margin-right: 0.5rem;
+        }
+
+        &:hover {
+          background: red;
+        }
+      }
+    }
+
+  }
+}
+
 /* Keyframes */
 
 @keyframes hueRotate {

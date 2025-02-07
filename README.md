@@ -69,7 +69,7 @@ For macOS, use the meta key instead of `CTRL`.
 | `CTRL + F`         | Find and search tool                                                |
 | `CTRL + G`         | Toggle grid                                                         |
 | `CTRL + E`         | Toggle spellchecker                                                 |
-| `CTRL + P`         | Open print menu                                                     |
+| `CTRL + SHIFT + P`         | Open print menu                                                     |
 | `CTRL + R`         | Reload app                                                          |
 | `CTRL + N`         | Toggle glow                                                         |
 | `CTRL + SHIFT + N` | Toggle dynamic glow (Takes more processing power, code mode only)   |

@@ -16,5 +16,77 @@
     <footer>
       <div><span id="words"></span> &nbsp; • &nbsp; <span id="chars"></span> &nbsp; • &nbsp; <span id="lines"></span> &nbsp; • &nbsp; <span id="read"></span></div>
     </footer>
+
+    <div class="command-palette" style="display: none;">
+      <div class="wrapper">
+        <input type="text" placeholder="Search...">
+        <div class="results">
+          <div class="item" onclick="shortcuts['ctrl+O']()">
+            <span class="shortcut">Ctrl+O</span>
+            <span class="description">Open document</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+S']()">
+            <span class="shortcut">Ctrl+S</span>
+            <span class="description">Save document</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+M']()">
+            <span class="shortcut">Ctrl+M</span>
+            <span class="description">Mica effect</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+T']()">
+            <span class="shortcut">Ctrl+T</span>
+            <span class="description">Switch between themes</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+W']()">
+            <span class="shortcut">Ctrl+W</span>
+            <span class="description">Status bar visibility</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+F']()">
+            <span class="shortcut">Ctrl+F</span>
+            <span class="description">Find and search tool</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+G']()">
+            <span class="shortcut">Ctrl+G</span>
+            <span class="description">Grid</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+E']()">
+            <span class="shortcut">Ctrl+E</span>
+            <span class="description">Spellchecker</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+shift+P']()">
+            <span class="shortcut">Ctrl+Shift+P</span>
+            <span class="description">Open print menu</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+R']()">
+            <span class="shortcut">Ctrl+R</span>
+            <span class="description">Reload app</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+N']()">
+            <span class="shortcut">Ctrl+N</span>
+            <span class="description">Glow</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+shift+N']()">
+            <span class="shortcut">Ctrl+Shift+N</span>
+            <span class="description">Dynamic glow</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+shift+R']()">
+            <span class="shortcut">Ctrl+Shift+R</span>
+            <span class="description">Rainbow mode</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+shift+S']()">
+            <span class="shortcut">Ctrl+Shift+S</span>
+            <span class="description">Text to speech</span>
+          </div>
+          <div class="item">
+            <span class="shortcut">Ctrl+Scroll</span>
+            <span class="description">Change font size</span>
+          </div>
+          <div class="item" onclick="shortcuts['ctrl+shift+C']()">
+            <span class="shortcut">Ctrl+Shift+C</span>
+            <span class="description">Code mode</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
