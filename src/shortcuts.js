@@ -114,8 +114,15 @@ const shortcuts = {
     saveData('code_mode', codeMode.toString());
   },
 
-  'ctrl+R': () => {
-    window.location.reload();
+  'ctrl+R': async () => {
+    if (!saved) {
+      const shouldExit = await dialog.ask('You have unsaved changes. Do you really want to reload?', { title: 'Unsaved Changes' });
+      if (shouldExit) {
+        window.location.reload();
+      }
+    } else {
+      window.location.reload();
+    }
   },
 
   'ctrl+shift+R': () => {

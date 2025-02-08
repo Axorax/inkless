@@ -312,19 +312,44 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultsContainer = document.querySelector(".command-palette .results");
   const items = Array.from(document.querySelectorAll(".command-palette .item"));
   const noResultsItem = document.createElement("div");
-  
+  const itemMap = new Map();
+
   noResultsItem.className = "item no-results";
   noResultsItem.innerHTML = "<span class='description'>No results found</span>";
   noResultsItem.style.display = "none";
   resultsContainer.appendChild(noResultsItem);
 
+  items.forEach(item => itemMap.set(item.innerText.toLowerCase(), item));
+
+  function levenshteinDistance(a, b) {
+    if (!a || !b) return Math.max(a.length, b.length);
+    const dp = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+    for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+    for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+    for (let i = 1; i <= a.length; i++) {
+      for (let j = 1; j <= b.length; j++) {
+        dp[i][j] = Math.min(
+          dp[i - 1][j] + 1,
+          dp[i][j - 1] + 1,
+          dp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+        );
+      }
+    }
+    return dp[a.length][b.length];
+  }
+
+  function isSimilar(query, text) {
+    if (text.includes(query)) return true;
+    const words = text.split(/\s+/);
+    return words.some(word => levenshteinDistance(word, query) <= Math.max(1, Math.floor(word.length * 0.3)));
+  }
+
   searchInput.addEventListener("input", () => {
     const query = searchInput.value.toLowerCase();
     let matches = 0;
 
-    items.forEach(item => {
-      const text = item.innerText.toLowerCase();
-      const isMatch = text.includes(query);
+    itemMap.forEach((item, text) => {
+      const isMatch = isSimilar(query, text);
       item.style.display = isMatch ? "flex" : "none";
       if (isMatch) matches++;
     });

@@ -80,7 +80,7 @@ For macOS, use the meta key instead of `CTRL`.
 
 ## ⌨️ Editor shortcuts
 
-You can use these shortcuts while writing in the input field. For macOS, use the meta key instead of `CTRL`. Effects like bold, italic and so on don't get saved. So, if you reload or load the file after saving, they won't appear.
+You can use these shortcuts while writing in the input field (CODE MODE ONLY). For macOS, use the meta key instead of `CTRL`.
 
 | Shortcut                     | Description                                           |
 | ---------------------------- | ----------------------------------------------------- |

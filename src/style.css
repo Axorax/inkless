@@ -13,7 +13,11 @@
   --placeholder: #0000004e;
   --background: #fff;
   --footer-color: #00000085;
-  --footer-border: #d5d5d5;
+  --border: #d5d5d5;
+  --overlay: #00000095;
+  --primary: #344CB7;
+  --cmd-background: #e9e9e9;
+  --cmd-hover: #dfdfdf;
   --padding: 1rem;
   --height: calc(100dvh - 30px - 2 * var(--padding));
   --font-size: 16px;
@@ -49,7 +53,9 @@
     --placeholder: #ffffff4e;
     --background: #121212;
     --footer-color: #ffffff78;
-    --footer-border: #3d3d3d;
+    --border: #3d3d3d;
+    --cmd-background: #191919;
+    --cmd-hover: #212121;
   }
 
   &.mica {
@@ -57,7 +63,9 @@
     --placeholder: #ffffff4e;
     --background: transparent;
     --footer-color: #ffffff78;
-    --footer-border: #3d3d3d;
+    --border: #3d3d3d;
+    --cmd-background: #191919;
+    --cmd-hover: #212121;
   }
 
   &.rainbow {
@@ -138,7 +146,7 @@ footer {
   bottom: 0;
   left: 0;
   width: 100dvw;
-  border-top: 1.5px solid var(--footer-border);
+  border-top: 1.5px solid var(--border);
   padding: 0.4rem 0.8rem;
   font-size: 0.8rem;
   z-index: 9;
@@ -170,10 +178,9 @@ footer {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99;
-  background: #0000004e;
+  background: var(--overlay);
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(2px);
 
   .wrapper {
     display: flex;
@@ -192,39 +199,52 @@ footer {
       max-width: calc(100% - 2rem);
       outline: none;
       border: none;
-      background: #1d1d1dc7;
+      background: var(--cmd-background);
+      border-bottom: 1px solid var(--border);
       border-radius: 1rem 1rem 0 0;
       padding: 1rem;
       color: var(--text);
       font-size: 16px;
     }
 
-    .results {
+    .results-wrapper {
       width: 25rem;
       max-width: calc(100% - 2rem);
-      overflow-y: scroll;
+      height: 100dvh;
       max-height: 70%;
-      border-radius: 0 0 1rem 1rem;
+      
+      .results {
+        max-height: 100%;
+        border-radius: 0 0 1rem 1rem;
+        overflow-y: scroll;
+      }
 
       .item {
-        background: #1d1d1d;
+        background: var(--cmd-background);
         padding: 1rem;
         white-space: nowrap;
         overflow-y: hidden;
         cursor: pointer;
         user-select: none;
+        transition: background 200ms ease-in-out;
 
         .shortcut {
-          background: #344CB7;
+          background: var(--primary);
           font-family: 'mono', monospace;
-          border-radius: 1rem;
-          font-size: 13px;
+          border-radius: 9rem;
+          font-size: 10px;
           padding: 0.3rem 0.6rem;
           margin-right: 0.5rem;
+          text-transform: uppercase;
+          color: #fff;
+        }
+
+        &:last-of-type {
+          border-radius: 0 0 1rem 1rem;
         }
 
         &:hover {
-          background: red;
+          background: var(--cmd-hover);
         }
       }
     }
