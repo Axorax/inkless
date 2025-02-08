@@ -17,10 +17,10 @@
       <div><span id="words"></span> &nbsp; • &nbsp; <span id="chars"></span> &nbsp; • &nbsp; <span id="lines"></span> &nbsp; • &nbsp; <span id="read"></span></div>
     </footer>
 
-    <div class="command-palette" style="display: none;">
+    <div class="command-palette" style="display: none">
       <div class="wrapper">
-        <input type="text" placeholder="🔎︎ Search...">
-        <div class="results-wrapper">
+        <input type="text" placeholder="🔎︎ Search..." />
+        <div class="bottom">
           <div class="results">
             <div class="item" onclick="shortcuts['ctrl+O']()">
               <span class="shortcut">Ctrl+O</span>
@@ -61,6 +61,10 @@
             <div class="item" onclick="shortcuts['ctrl+R']()">
               <span class="shortcut">Ctrl+R</span>
               Reload app
+            </div>
+            <div class="item" onclick="shortcuts['ctrl+P']()">
+              <span class="shortcut">Ctrl+P</span>
+              Command palette
             </div>
             <div class="item" onclick="shortcuts['ctrl+N']()">
               <span class="shortcut">Ctrl+N</span>

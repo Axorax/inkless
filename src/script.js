@@ -5,6 +5,7 @@ const info = document.querySelector('.info');
 const footer = document.querySelector('footer > div');
 const editor = document.querySelector('div[contenteditable]');
 const placeholder = editor.getAttribute('placeholder');
+const searchInput = document.querySelector('.command-palette input');
 let codeMode = false;
 let rainbow = false;
 let dynamicGlow = false;
@@ -280,7 +281,9 @@ const keydownHandler = function (e) {
     while (end && end.nodeType !== Node.ELEMENT_NODE) end = end.parentNode;
     if (start && end && start === end && start.nodeType === Node.ELEMENT_NODE) {
       const lineText = start.textContent;
-      navigator.clipboard.writeText(lineText).then(() => { start.textContent = ''; });
+      navigator.clipboard.writeText(lineText).then(() => {
+        start.textContent = '';
+      });
     }
   } else if (e.key === 'Home') {
     e.preventDefault();
@@ -307,19 +310,17 @@ const keydownHandler = function (e) {
 
 // Search
 
-document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.querySelector(".command-palette input");
-  const resultsContainer = document.querySelector(".command-palette .results");
-  const items = Array.from(document.querySelectorAll(".command-palette .item"));
-  const noResultsItem = document.createElement("div");
+document.addEventListener('DOMContentLoaded', () => {
+  const items = Array.from(document.querySelectorAll('.command-palette .item'));
+  const noResultsItem = document.createElement('div');
   const itemMap = new Map();
 
-  noResultsItem.className = "item no-results";
+  noResultsItem.className = 'item no-results';
   noResultsItem.innerHTML = "<span class='description'>No results found</span>";
-  noResultsItem.style.display = "none";
-  resultsContainer.appendChild(noResultsItem);
+  noResultsItem.style.display = 'none';
+  document.querySelector('.command-palette .results').appendChild(noResultsItem);
 
-  items.forEach(item => itemMap.set(item.innerText.toLowerCase(), item));
+  items.forEach((item) => itemMap.set(item.innerText.toLowerCase(), item));
 
   function levenshteinDistance(a, b) {
     if (!a || !b) return Math.max(a.length, b.length);
@@ -328,33 +329,83 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let j = 0; j <= b.length; j++) dp[0][j] = j;
     for (let i = 1; i <= a.length; i++) {
       for (let j = 1; j <= b.length; j++) {
-        dp[i][j] = Math.min(
-          dp[i - 1][j] + 1,
-          dp[i][j - 1] + 1,
-          dp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
-        );
+        dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
       }
     }
     return dp[a.length][b.length];
   }
 
+  function jaroWinkler(s1, s2) {
+    if (!s1 || !s2) return 0;
+    let m = 0;
+    const matchDistance = Math.floor(Math.max(s1.length, s2.length) / 2) - 1;
+    const s1Matches = new Array(s1.length).fill(false);
+    const s2Matches = new Array(s2.length).fill(false);
+    for (let i = 0; i < s1.length; i++) {
+      const start = Math.max(0, i - matchDistance);
+      const end = Math.min(i + matchDistance + 1, s2.length);
+      for (let j = start; j < end; j++) {
+        if (s2Matches[j]) continue;
+        if (s1[i] !== s2[j]) continue;
+        s1Matches[i] = true;
+        s2Matches[j] = true;
+        m++;
+        break;
+      }
+    }
+    if (m === 0) return 0;
+    let t = 0;
+    let k = 0;
+    for (let i = 0; i < s1.length; i++) {
+      if (!s1Matches[i]) continue;
+      while (!s2Matches[k]) k++;
+      if (s1[i] !== s2[k]) t++;
+      k++;
+    }
+    t /= 2;
+    let jaro = (m / s1.length + m / s2.length + (m - t) / m) / 3;
+    let p = 0.1;
+    let l = 0;
+    while (l < 4 && s1[l] === s2[l]) l++;
+    return jaro + l * p * (1 - jaro);
+  }
+
+  function diceCoefficient(s1, s2) {
+    if (!s1 || !s2) return 0;
+    if (s1.length < 2 || s2.length < 2) return s1 === s2 ? 1 : 0;
+    const bigrams = new Map();
+    for (let i = 0; i < s1.length - 1; i++) {
+      const bigram = s1.substring(i, i + 2);
+      bigrams.set(bigram, (bigrams.get(bigram) || 0) + 1);
+    }
+    let intersection = 0;
+    for (let i = 0; i < s2.length - 1; i++) {
+      const bigram = s2.substring(i, i + 2);
+      if (bigrams.has(bigram) && bigrams.get(bigram) > 0) {
+        intersection++;
+        bigrams.set(bigram, bigrams.get(bigram) - 1);
+      }
+    }
+    return (2 * intersection) / (s1.length + s2.length - 2);
+  }
+
   function isSimilar(query, text) {
     if (text.includes(query)) return true;
     const words = text.split(/\s+/);
-    return words.some(word => levenshteinDistance(word, query) <= Math.max(1, Math.floor(word.length * 0.3)));
+    return words.some((word) => levenshteinDistance(word, query) <= Math.max(1, Math.floor(word.length * 0.3)) || jaroWinkler(word, query) > 0.85 || diceCoefficient(word, query) > 0.6);
   }
 
-  searchInput.addEventListener("input", () => {
+  searchInput.addEventListener('input', () => {
     const query = searchInput.value.toLowerCase();
     let matches = 0;
 
     itemMap.forEach((item, text) => {
       const isMatch = isSimilar(query, text);
-      item.style.display = isMatch ? "flex" : "none";
+      item.style.display = isMatch ? 'flex' : 'none';
       if (isMatch) matches++;
     });
 
-    noResultsItem.style.display = matches === 0 ? "flex" : "none";
+    noResultsItem.style.display = matches === 0 ? 'flex' : 'none';
   });
 });
 

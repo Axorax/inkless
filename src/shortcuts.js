@@ -67,7 +67,13 @@ const shortcuts = {
 
   'ctrl+P': () => {
     const e = document.querySelector('.command-palette');
-      e.style.display = e.style.display === 'none' ? 'block' : 'none';
+
+    if (e.style.display === 'none') {
+      e.style.display = 'block';
+      searchInput.focus();
+    } else {
+      e.style.display = 'none';
+    }
   },
 
   'ctrl+G': () => {
@@ -136,6 +142,10 @@ const shortcuts = {
     setTitle();
     updateEditor();
     saveData('dynamic_glow', dynamicGlow.toString());
+  },
+
+  'ESCAPE': () => {
+    document.querySelector('.command-palette').style.display = 'none';
   },
 };
 
