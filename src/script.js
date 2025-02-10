@@ -1,4 +1,4 @@
-const { dialog, fs, path } = window.__TAURI__;
+const { dialog, fs, path, deepLink } = window.__TAURI__;
 const { getCurrentWindow } = window.__TAURI__.window;
 
 const info = document.querySelector('.info');
@@ -333,7 +333,7 @@ getCurrentWindow().listen('tauri://close-requested', async (event) => {
   }
 });
 
-// Handle settings and extensions
+// Handle data
 
 function getOSTheme() {
   if (window.matchMedia) {
@@ -345,6 +345,8 @@ function getOSTheme() {
 
 (async () => {
   const data = await getAll();
+  const deep = ((await deepLink.getCurrent()) || [''])[0];
+  const match = deep.match(/^inkless:\/\/([^\/?]+)/);
 
   if (data.theme) {
     document.documentElement.classList.add(data.theme);
@@ -375,6 +377,19 @@ function getOSTheme() {
     Object.keys(data.ext).forEach((key) => {
       eval(data.ext[key]);
     });
+  }
+
+  if (match) {
+    const mainPart = match[1];
+    const url = new URL(deep.replace('inkless://', 'https://'));
+
+    if (mainPart === 'editor') {
+      const data = url.searchParams.get('data');
+      if (data) {
+        editor.focus();
+        editor.textContent = data;
+      }
+    }
   }
 })();
 
