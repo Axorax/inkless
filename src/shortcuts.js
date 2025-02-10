@@ -36,26 +36,33 @@ const shortcuts = {
   },
 
   'ctrl+M': async () => {
-    const htmlClass = document.documentElement.classList;
-    const newTheme = htmlClass.contains('dark') ? 'mica' : htmlClass.contains('mica') ? 'dark' : 'mica';
-    htmlClass.remove('dark', 'mica');
-    htmlClass.add(newTheme);
-    saveData('theme', newTheme);
+    const e = document.documentElement.classList;
+    const theme = e.contains('dark') ? 'mica' : e.contains('mica') ? 'dark' : 'mica';
+    e.remove('dark', 'mica');
+    e.add(theme);
+    saveData('theme', theme);
   },
 
   'ctrl+N': async () => {
-    const htmlClass = document.documentElement.classList;
-    const glowEnabled = htmlClass.contains('glow');
-    htmlClass.toggle('glow', !glowEnabled);
+    const e = document.documentElement.classList;
+    const glowEnabled = e.contains('glow');
+    e.toggle('glow', !glowEnabled);
     saveData('glow', glowEnabled ? 'no' : 'yes');
   },
 
   'ctrl+T': async () => {
-    const htmlClass = document.documentElement.classList;
-    const newTheme = htmlClass.contains('mica') ? 'dark' : htmlClass.contains('dark') ? 'light' : 'mica';
-    htmlClass.remove('mica', 'dark');
-    htmlClass.add(newTheme);
-    saveData('theme', newTheme);
+    const e = document.documentElement.classList;
+    let theme;
+    if (e.contains('dark')) {
+      theme = 'light';
+    } else if (e.contains('light')) {
+      theme = 'mica';
+    } else {
+      theme = 'dark';
+    }
+    e.remove('mica', 'dark', 'light');
+    e.add(theme);
+    saveData('theme', theme);
   },
 
   'ctrl+W': () => {
