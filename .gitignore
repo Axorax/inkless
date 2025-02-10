@@ -29,3 +29,4 @@ gen/
 Cargo.lock
 target/
 *.inkfmt
+*.inkless

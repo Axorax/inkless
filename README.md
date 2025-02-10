@@ -12,27 +12,35 @@
 
 ## ❓ About
 
-Inkless is a minimal, lightweight (less than 4 MB), shortcut-based text editor. You can use it for writing notes or coding (`CTRL + SHIFT + C`). Anything you paste is automatically converted to plain text.
+Inkless is a minimal, lightweight (less than 4 MB), shortcut-based text editor. You can use it for writing notes or coding.
 
-There will be a `*` symbol beside the filename in the titlebar if you have unsaved changes. And, if code mode or dynamic glow is enabled, it will mention that in the titlebar.
+<br>
 
-Inkless also supports extensions. Settings and extensions are stored in a file called `data.inkfmt` (located in same directory as executable). Extensions are written in JavaScript and have full access to all web features. To add an extension, add this to the file:
+<p align="center">
+    <img src="preview.png" alt="App Preview"/>
+</p>
+
+<br>
+
+A `*` will appear in the titlebar for unsaved changes, and it will also indicate if code mode or dynamic glow is enabled. Anything you paste is automatically converted to plain text. You can go to the url `inkless://` to open the app.
+
+Inkless also supports extensions. Settings and extensions are stored in a file called `data.inkless` (located in same directory as executable). Extensions are written in JavaScript and have full access to all web features. To add an extension, add this to the file:
 
 ```
 ext.EXTENSION_NAME = ---
-console.log("Hello world");
+<CODE-HERE>
 ---
 ```
 
 Example data file with settings and extensions:
 
 ```
-theme = mica
-code_mode = true
-glow = true
+theme = mica # mica | dark | light
+code_mode = yes
+glow = no
 
-ext.consolelog = ---
-console.log("hello!");
+ext.greetuser = ---
+alert("hello!");
 ---
 
 ext.anotherone = ---
@@ -43,14 +51,6 @@ if (5 > 4) {
 ```
 
 Donations are really appreciated and would help in the improvement of the project! https://www.patreon.com/axorax
-
-<br>
-
-<p align="center">
-    <img src="preview.png" alt="App Preview"/>
-</p>
-
-<br>
 
 > [!NOTE]
 > If the status bar (the bottom area that has word count, line count, etc.) overflows and you cannot see the rest of the content, then, you can scroll to go sideways.

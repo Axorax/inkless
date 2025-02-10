@@ -15,24 +15,25 @@ let timer, timer2;
 let activeFile = 'untitled.txt';
 let fontSize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--font-size'));
 
-const fileName = 'data.inkfmt';
+const fileName = 'data.inkless';
 const saveTimers = {};
 
-async function saveData(key, value) {
+async function parseFile() {
   const filePath = `./${fileName}`;
-  let data = {};
-
   try {
     const content = await fs.readTextFile(filePath);
     const lines = content.split('\n');
-    let currentSection = null;
+    const data = {};
     let multiLineKey = null;
     let multiLineValue = [];
-    data = {};
 
     for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
+      let trimmed = line.trim();
+      if (!trimmed) continue;
+
+      if (trimmed.startsWith('#') && !multiLineKey) {
+        continue;
+      }
 
       if (multiLineKey) {
         if (trimmed === '---') {
@@ -41,10 +42,8 @@ async function saveData(key, value) {
           for (let i = 0; i < parts.length; i++) {
             const part = parts[i];
             if (i === parts.length - 1) ref[part] = multiLineValue.join('\n');
-            else {
-              if (!ref[part] || typeof ref[part] !== 'object') ref[part] = {};
-              ref = ref[part];
-            }
+            else ref[part] = ref[part] || {};
+            ref = ref[part];
           }
           multiLineKey = null;
           multiLineValue = [];
@@ -52,6 +51,11 @@ async function saveData(key, value) {
           multiLineValue.push(trimmed);
         }
         continue;
+      }
+
+      if (trimmed.includes('#')) {
+        const commentIndex = trimmed.indexOf('#');
+        trimmed = trimmed.slice(0, commentIndex).trim();
       }
 
       const [k, ...rest] = trimmed.split('=');
@@ -66,28 +70,29 @@ async function saveData(key, value) {
         for (let i = 0; i < parts.length; i++) {
           const part = parts[i];
           if (i === parts.length - 1) ref[part] = val;
-          else {
-            if (!ref[part] || typeof ref[part] !== 'object') ref[part] = {};
-            ref = ref[part];
-          }
+          else ref[part] = ref[part] || {};
+          ref = ref[part];
         }
       }
     }
-  } catch (e) {}
+    return data;
+  } catch (e) {
+    return {};
+  }
+}
 
+async function saveData(key, value) {
+  const data = await parseFile();
   if (saveTimers[key]) clearTimeout(saveTimers[key]);
 
   saveTimers[key] = setTimeout(async () => {
     const parts = key.split('.');
     let ref = data;
-
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
       if (i === parts.length - 1) ref[part] = value.includes('\n') ? value : value.trim();
-      else {
-        if (!ref[part] || typeof ref[part] !== 'object') ref[part] = {};
-        ref = ref[part];
-      }
+      else ref[part] = ref[part] || {};
+      ref = ref[part];
     }
 
     function serialize(obj, prefix = '') {
@@ -95,145 +100,33 @@ async function saveData(key, value) {
       for (const [key, val] of Object.entries(obj)) {
         const fullKey = prefix ? `${prefix}.${key}` : key;
         if (typeof val === 'object' && !Array.isArray(val)) result += serialize(val, fullKey);
-        else if (typeof val === 'string' && val.includes('\n')) result += `${fullKey} = ---\n${val}\n---\n`;
-        else result += `${fullKey} = ${val}\n`;
+        else result += typeof val === 'string' && val.includes('\n') ? `${fullKey} = ---\n${val}\n---\n` : `${fullKey} = ${val}\n`;
       }
       return result;
     }
 
     const formatted = serialize(data);
-    await fs.writeTextFile(filePath, formatted);
+    await fs.writeTextFile(`./${fileName}`, formatted);
 
     delete saveTimers[key];
   }, 500);
 }
 
 async function getData(key) {
-  const filePath = `./${fileName}`;
-  try {
-    const content = await fs.readTextFile(filePath);
-    const lines = content.split('\n');
-    let currentSection = null;
-    let multiLineKey = null;
-    let multiLineValue = [];
-    const data = {};
+  const data = await parseFile();
+  const parts = key.split('.');
+  let ref = data;
 
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
-
-      if (multiLineKey) {
-        if (trimmed === '---') {
-          const parts = multiLineKey.split('.');
-          let ref = data;
-          for (let i = 0; i < parts.length; i++) {
-            const part = parts[i];
-            if (i === parts.length - 1) ref[part] = multiLineValue.join('\n');
-            else {
-              if (!ref[part] || typeof ref[part] !== 'object') ref[part] = {};
-              ref = ref[part];
-            }
-          }
-          multiLineKey = null;
-          multiLineValue = [];
-        } else {
-          multiLineValue.push(trimmed);
-        }
-        continue;
-      }
-
-      const [k, ...rest] = trimmed.split('=');
-      const val = rest.join('=').trim();
-
-      if (val === '---') {
-        multiLineKey = k.trim();
-        multiLineValue = [];
-      } else {
-        const parts = k.trim().split('.');
-        let ref = data;
-        for (let i = 0; i < parts.length; i++) {
-          const part = parts[i];
-          if (i === parts.length - 1) ref[part] = val;
-          else {
-            if (!ref[part] || typeof ref[part] !== 'object') ref[part] = {};
-            ref = ref[part];
-          }
-        }
-      }
-    }
-
-    const parts = key.split('.');
-    let ref = data;
-
-    for (const part of parts) {
-      if (ref[part] === undefined) return null;
-      ref = ref[part];
-    }
-
-    return ref.startsWith('---') && ref.endsWith('---') ? ref.slice(3, -3).trim() : ref;
-  } catch (e) {
-    return null;
+  for (const part of parts) {
+    if (ref[part] === undefined) return null;
+    ref = ref[part];
   }
+
+  return ref.startsWith('---') && ref.endsWith('---') ? ref.slice(3, -3).trim() : ref;
 }
 
 async function getAll() {
-  const filePath = `./${fileName}`;
-  try {
-    const content = await fs.readTextFile(filePath);
-    const lines = content.split('\n');
-    let currentSection = null;
-    let multiLineKey = null;
-    let multiLineValue = [];
-    const data = {};
-
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
-
-      if (multiLineKey) {
-        if (trimmed === '---') {
-          const parts = multiLineKey.split('.');
-          let ref = data;
-          for (let i = 0; i < parts.length; i++) {
-            const part = parts[i];
-            if (i === parts.length - 1) ref[part] = multiLineValue.join('\n');
-            else {
-              if (!ref[part] || typeof ref[part] !== 'object') ref[part] = {};
-              ref = ref[part];
-            }
-          }
-          multiLineKey = null;
-          multiLineValue = [];
-        } else {
-          multiLineValue.push(trimmed);
-        }
-        continue;
-      }
-
-      const [k, ...rest] = trimmed.split('=');
-      const val = rest.join('=').trim();
-
-      if (val === '---') {
-        multiLineKey = k.trim();
-        multiLineValue = [];
-      } else {
-        const parts = k.trim().split('.');
-        let ref = data;
-        for (let i = 0; i < parts.length; i++) {
-          const part = parts[i];
-          if (i === parts.length - 1) ref[part] = val;
-          else {
-            if (!ref[part] || typeof ref[part] !== 'object') ref[part] = {};
-            ref = ref[part];
-          }
-        }
-      }
-    }
-
-    return data;
-  } catch (e) {
-    return {};
-  }
+  return await parseFile();
 }
 
 // Keyboard handler
@@ -463,15 +356,15 @@ function getOSTheme() {
     }
   }
 
-  if (data.glow && data.glow == 'true') {
+  if (data.glow && data.glow.toLowerCase() == 'yes') {
     document.documentElement.classList.add('glow');
   }
 
-  if (data.dynamic_glow && data.dynamic_glow == 'true') {
+  if (data.dynamic_glow && data.dynamic_glow.toLowerCase() == 'yes') {
     dynamicGlow = true;
   }
 
-  if (data.code_mode && data.code_mode == 'true') {
+  if (data.code_mode && data.code_mode.toLowerCase() == 'yes') {
     toggleCodeMode();
     setTitle();
     document.documentElement.classList.add('mono');

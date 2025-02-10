@@ -47,7 +47,7 @@ const shortcuts = {
     const htmlClass = document.documentElement.classList;
     const glowEnabled = htmlClass.contains('glow');
     htmlClass.toggle('glow', !glowEnabled);
-    saveData('glow', glowEnabled ? 'false' : 'true');
+    saveData('glow', glowEnabled ? 'no' : 'yes');
   },
 
   'ctrl+T': async () => {
@@ -117,7 +117,7 @@ const shortcuts = {
     document.documentElement.classList.toggle('mono', codeMode);
     setTitle();
     updateEditor();
-    saveData('code_mode', codeMode.toString());
+    saveData('code_mode', codeMode ? 'yes' : 'no');
   },
 
   'ctrl+R': async () => {
@@ -141,7 +141,7 @@ const shortcuts = {
     document.documentElement.classList.toggle('glow');
     setTitle();
     updateEditor();
-    saveData('dynamic_glow', dynamicGlow.toString());
+    saveData('dynamic_glow', dynamicGlow ? 'yes' : 'no');
   },
 
   'ESCAPE': () => {
