@@ -61,6 +61,7 @@ For macOS, use the meta key instead of `CTRL`.
 
 | Shortcut           | Description                                                         |
 | ------------------ | ------------------------------------------------------------------- |
+| `CTRL + P`         | Open command palette                                                |
 | `CTRL + O`         | Open document                                                       |
 | `CTRL + S`         | Save document                                                       |
 | `CTRL + M`         | Toggle Mica effect (Windows only)                                   |

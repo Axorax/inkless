@@ -144,7 +144,7 @@ const shortcuts = {
     saveData('dynamic_glow', dynamicGlow ? 'yes' : 'no');
   },
 
-  'ESCAPE': () => {
+  ESCAPE: () => {
     document.querySelector('.command-palette').style.display = 'none';
   },
 };
