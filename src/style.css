@@ -222,6 +222,7 @@ footer {
         cursor: pointer;
         user-select: none;
         transition: background 200ms ease-in-out;
+        color: var(--text) !important;
 
         .shortcut {
           background: var(--primary);
