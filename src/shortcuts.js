@@ -1,7 +1,7 @@
 const shortcuts = {
   'ctrl+S': async () => {
     const text = editor.innerText.trim();
-    if (text) {
+    if (saved == false || text) {
       if (activeFilePath) {
         await fs.writeTextFile(activeFilePath, text);
       } else {
@@ -21,6 +21,7 @@ const shortcuts = {
   },
 
   'ctrl+shift+S': () => {
+    event.preventDefault();
     const synth = window.speechSynthesis;
     if (synth.speaking) {
       synth.cancel();
@@ -107,6 +108,76 @@ const shortcuts = {
       setTitle();
       editor.removeAttribute('placeholder');
       updateInfo();
+    }
+  },
+
+  'ctrl+.': () => {
+    const selectedText = window.getSelection().toString().trim().replace(/\s+/g, '').toLowerCase();
+    if (!selectedText) return;
+
+    const actions = {
+      'i.date': () => new Date().toLocaleString(),
+      'i.time': () => new Date().toLocaleTimeString(),
+      'i.year': () => new Date().getFullYear().toString(),
+      'i.day': () => new Date().toLocaleDateString(undefined, { weekday: 'long' }),
+      'i.month': () => new Date().toLocaleDateString(undefined, { month: 'long' }),
+      'i.random': () => Math.floor(Math.random() * 100).toString(),
+      'i.flip': () => (Math.random() < 0.5 ? 'Heads' : 'Tails'),
+      'i.timestamp': () => Math.floor(Date.now() / 1000).toString(),
+      'i.iso': () => new Date().toISOString(),
+      'i.pi': () => Math.PI.toString(),
+      'i.e': () => Math.E.toString(),
+      'i.password': () => {
+        const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=<>?';
+        let password = '';
+        for (let i = 0; i < 12; i++) {
+          password += charset.charAt(Math.floor(Math.random() * charset.length));
+        }
+        return password;
+      },
+      'i.hex': () => {
+        return '#' + Math.floor(Math.random() * 16777215).toString(16);
+      },
+      'i.magic8': () => {
+        const responses = ['Yes', 'No', 'Ask again later', 'Definitely', 'Not a chance', 'Maybe', 'Very likely'];
+        return responses[Math.floor(Math.random() * responses.length)];
+      },
+      'i.uuid': () => {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+          var r = (Math.random() * 16) | 0,
+            v = c === 'x' ? r : (r & 0x3) | 0x8;
+          return v.toString(16);
+        });
+      },
+      'i.systemInfo': () => {
+        const userAgent = navigator.userAgent;
+        const platform = navigator.platform;
+        return `User Agent: ${userAgent}\nPlatform: ${platform}`;
+      },
+      'i.memoryUsage': () => {
+        if (typeof performance !== 'undefined' && performance.memory) {
+          const memory = performance.memory;
+          return `Used JS Memory: ${Math.round(memory.usedJSHeapSize / 1024 / 1024)} MB / Total JS Memory: ${Math.round(memory.totalJSHeapSize / 1024 / 1024)} MB`;
+        } else {
+          return 'Memory usage information is unavailable.';
+        }
+      },
+    };
+
+    if (actions[selectedText]) {
+      document.execCommand('insertText', false, actions[selectedText]());
+      return;
+    }
+
+    if (/^[\d+\-*/().]+$/.test(selectedText)) {
+      try {
+        const result = Function(`"use strict"; return (${selectedText})`)();
+        if (!isNaN(result)) {
+          document.execCommand('insertText', false, result.toString());
+        }
+      } catch (_) {
+        return;
+      }
     }
   },
 

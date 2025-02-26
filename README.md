@@ -64,6 +64,7 @@ For macOS, use the meta key instead of `CTRL`.
 | `CTRL + P`         | Open command palette                                                |
 | `CTRL + O`         | Open document                                                       |
 | `CTRL + S`         | Save document                                                       |
+| `CTRL + .`         | Run Inkless action                                                  |
 | `CTRL + M`         | Toggle Mica effect (Windows only)                                   |
 | `CTRL + T`         | Switch between themes                                               |
 | `CTRL + W`         | Toggle status bar visibility                                        |
@@ -78,6 +79,31 @@ For macOS, use the meta key instead of `CTRL`.
 | `CTRL + SHIFT + S` | Text to speech. Will speak selected text otherwise entire document. |
 | `CTRL + Scroll`    | Increase or decrease font size                                      |
 | `CTRL + SHIFT + C` | Toggle code mode                                                    |
+
+# Inkless actions
+
+Type an action, select it and press `CTRL + .` to execute the action.
+
+| Command         | Description                                                   | Example Output                                   |
+| --------------- | ------------------------------------------------------------- | ------------------------------------------------ |
+| `i.date`        | Inserts the current date and time.                            | `2/26/2025, 2:45:30 PM`                          |
+| `i.time`        | Inserts the current time.                                     | `2:45:30 PM`                                     |
+| `i.year`        | Inserts the current year.                                     | `2025`                                           |
+| `i.day`         | Inserts the name of the current day of the week.              | `Monday`                                         |
+| `i.month`       | Inserts the current month.                                    | `February`                                       |
+| `i.random`      | Inserts a random number between 0 and 100.                    | `57`                                             |
+| `i.flip`        | Simulates a coin flip and inserts "Heads" or "Tails".         | `Heads`                                          |
+| `i.timestamp`   | Inserts the current Unix timestamp (seconds since 1970).      | `1614346235`                                     |
+| `i.iso`         | Inserts the current date and time in ISO 8601 format.         | `2025-02-26T14:45:30.000Z`                       |
+| `i.pi`          | Inserts the value of π (Pi).                                  | `3.1415926535`                                   |
+| `i.e`           | Inserts the value of e (Euler's number).                      | `2.7182818284`                                   |
+| `i.password`    | Generates a random strong password.                           | `G!h72$h9kL`                                     |
+| `i.hex`         | Generates a random hex color.                                 | `#f2a200`                                        |
+| `i.magic8`      | Simulates a Magic 8-Ball response.                            | `Yes`                                            |
+| `i.uuid`        | Generates a unique UUID.                                      | `e0cb3d9e-1c2d-4c9d-b1d2-349ae4812349`           |
+| `i.systemInfo`  | Displays information about the system (User Agent, Platform). | `User Agent: Mozilla/5.0...`                     |
+| `i.memoryUsage` | Displays current memory usage of the JavaScript heap.         | `Used JS Memory: 10 MB / Total JS Memory: 50 MB` |
+| `2+2/4*3`       | Execute any math.                                             | 3.5                                              |
 
 ## ⌨️ Editor shortcuts
 
