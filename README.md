@@ -103,7 +103,7 @@ Type an action, select it and press `CTRL + .` to execute the action.
 | `i.uuid`        | Generates a unique UUID.                                      | `e0cb3d9e-1c2d-4c9d-b1d2...`           |
 | `i.systemInfo`  | Displays information about the system (User Agent, Platform). | `User Agent: Mozilla/5.0...`                     |
 | `i.memoryUsage` | Displays current memory usage of the JavaScript heap.         | `Used JS Memory: 10 MB /...` |
-| `2+2/4*3`       | Execute any math.                                             | 3.5                                              |
+| `2+2/4*3`       | Execute any math.                                             | `3.5`                                              |
 
 ## ⌨️ Editor shortcuts
 
